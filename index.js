@@ -6,7 +6,7 @@ const express = require('express')
 // used the connectToMongo() named function.
 connectToMongo();
 const app = express()
-const port = 5000 
+const port = process.env.PORT || 5000 
 
 app.use(cors()) // used cors because of some policy issues.
 
