@@ -4,7 +4,7 @@
   "description": "inotebook - your notebook on the cloud",
   "main": "index.js",
   "scripts": {
-    "server": "node index.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
