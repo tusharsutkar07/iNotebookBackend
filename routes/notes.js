@@ -14,7 +14,7 @@ router.get('/fetchallnotes', fetchuser, async (req, res) => { // that fetchuser 
         res.json(notes) //this is response as json file
     } catch (error) { // this will catch the error and show the bellow error messages
         console.error(error.message)
-        res.status(500).send("Internal Servar Error Doremon")
+        res.status(500).send("Internal Servar Error ")
     }
 
 })
@@ -24,8 +24,8 @@ router.get('/fetchallnotes', fetchuser, async (req, res) => { // that fetchuser 
 // Route-2 // Add a new notes, using: POST "/api/notes/addnote" // (Login Required) //
 
 router.post('/addnote', fetchuser, [
-    body('title', 'enter valid title doremon').isLength({ min: 3 }),
-    body('description', 'enter description atleast 3 characters doremon').isLength({ min: 3 }),
+    body('title', 'enter valid title ').isLength({ min: 3 }),
+    body('description', 'enter description atleast 3 characters ').isLength({ min: 3 }),
 ], async (req, res) => { // that fetchuser will fetch the user, it is used for authentication reason because we are accessing the MonogDB.(fetchuser is a middleware which comes from fetchuser.js file).
 
     try {
@@ -44,7 +44,7 @@ router.post('/addnote', fetchuser, [
 
     } catch (error) { // this will catch the error and show the bellow error messages
         console.error(error.message)
-        res.status(500).send("Internal Servar Error Doremon")
+        res.status(500).send("Internal Servar Error ")
     }
 })
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -65,10 +65,10 @@ router.put('/updatenote/:id', fetchuser, async (req, res) => { // that fetchuser
 
         // Find the note to be updated and update it.
         let note = await Notes.findById(req.params.id); // this (req.params.id) is a id, which is above line also by name id, the line is: router.put('/updatenote/:id', fetchuser
-        if (!note) { return res.status(404).send("Not Found Doremon") } // if note not found in the MongoDB then this error will show.
+        if (!note) { return res.status(404).send("Not Found ") } // if note not found in the MongoDB then this error will show.
 
         if (note.user.toString() !== req.user.id) { // if the note's user id and user's user id not matched then return an error, because he is trying to access the other's notes.
-            return res.status(404).send("Not Allowed Doremon")
+            return res.status(404).send("Not Allowed ")
         }
 
         note = await Notes.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true }) // here we provided id and newNote named variable which contains updated fields (data ex: title, description or tag).
@@ -76,7 +76,7 @@ router.put('/updatenote/:id', fetchuser, async (req, res) => { // that fetchuser
         res.json({ note }); // sending {note} response as a json.
     } catch (error) { // this will catch the error and show the bellow error messages
         console.error(error.message)
-        res.status(500).send("Internal Servar Error Doremon")
+        res.status(500).send("Internal Servar Error ")
     }
 })
 
@@ -90,18 +90,18 @@ router.delete('/deletenote/:id', fetchuser, async (req, res) => { // that fetchu
     try {
         //new// Find the note to be delete and delete it.
         let note = await Notes.findById(req.params.id); // this (req.params.id) is a id, which is above line also by name id, the line is: router.DELETE('/deletenote/:id', fetchuser
-        if (!note) { return res.status(404).send("Not Found Doremon") } // if note not found in the MongoDB then this error will show.
+        if (!note) { return res.status(404).send("Not Found ") } // if note not found in the MongoDB then this error will show.
 
         //new// allow deletion only if user own this note
         if (note.user.toString() !== req.user.id) { // if the note's user id and user's user id not matched then return an error, because he is trying to access the other's notes.
-            return res.status(404).send("Not Allowed Doremon")
+            return res.status(404).send("Not Allowed ")
         }
 
         note = await Notes.findByIdAndDelete(req.params.id) //new// this will find the note and delete it.
-        res.json({ 'Success': 'Note has been deleted Doremon', note: note }); //new// sending Success message and deleted not (deleted note preview) response as a json.
+        res.json({ 'Success': 'Note has been deleted ', note: note }); //new// sending Success message and deleted not (deleted note preview) response as a json.
     } catch (error) { // this will catch the error and show the bellow error messages
         console.error(error.message)
-        res.status(500).send("Internal Servar Error Doremon")
+        res.status(500).send("Internal Servar Error ")
     }
 })
 

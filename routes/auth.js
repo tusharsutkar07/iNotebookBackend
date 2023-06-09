@@ -7,7 +7,7 @@ var jwt = require('jsonwebtoken') // imported JWT (json web token)
 
 const fetchuser = require('../middleware/fetchuser'); // imported fetchuser from the fetchuser.js file.
 
-const JWT_SECRET = 'Harryisagoodb$oy' // keep this key secret, because using this key we are going to sign the web Token.
+const JWT_SECRET = process.env.JWT_SECRET // keep this key secret, because using this key we are going to sign the web Token.
 // you can save above variable JWT-SECRET in .env.local
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,9 +16,9 @@ const JWT_SECRET = 'Harryisagoodb$oy' // keep this key secret, because using thi
 
 // bellow code work is if the name, email or password is invalid then it will raise an error, and this is done by express-validator.
 router.post('/createuser', [ // instead of '/' we write '/createuser'
-  body('name', 'enter valid name doremon').isLength({ min: 3 }),
-  body('email', 'enter valid email doremon').isEmail(),
-  body('password', 'enter valid password doremon').isLength({ min: 3 }),
+  body('name', 'enter valid name ').isLength({ min: 3 }),
+  body('email', 'enter valid email ').isEmail(),
+  body('password', 'enter valid password ').isLength({ min: 3 }),
 ], async (req, res) => { // we made this function async
   // if there are errors, then return bad request and the errors
   let success = false; // added success condition here
@@ -61,7 +61,7 @@ router.post('/createuser', [ // instead of '/' we write '/createuser'
 
   } catch (error) { // this will catch the error and show the bellow error messages
     console.error(error.message)
-    res.status(500).send("Internal Servar Error Doremon")
+    res.status(500).send("Internal Servar Error ")
   }
 
 })
@@ -74,8 +74,8 @@ router.post('/createuser', [ // instead of '/' we write '/createuser'
 // we are Authenticate a user using: POST "/api/auth/login" and for this, no login required.
 
 router.post('/login', [ // this time we write '/login' because this code is for login the user, means authenticate a user.
-  body('email', 'enter valid email doremon').isEmail(),
-  body('password', 'Password cannot be blanked Doremon').exists(),
+  body('email', 'enter valid email ').isEmail(),
+  body('password', 'Password cannot be blanked ').exists(),
 ], async (req, res) => {
   let success = false;
 
@@ -90,14 +90,14 @@ router.post('/login', [ // this time we write '/login' because this code is for 
     let user = await User.findOne({ email }); // it is important to use await here.
     if (!user) { // if the user does not exist then this error will be print.
       success = false;
-      return res.status(400).json({ error: "Sorry user does not exist Doremon" })
+      return res.status(400).json({ error: "Sorry user does not exist " })
     }
 
     // in the bellow we have to use await.
     const passwordCompare = await bcrypt.compare(password, user.password)// this will compare the user inputed password to the database user password to authenticate.
     if (!passwordCompare) { // if the password is wrong then this error will be print.
       success = false;
-      return res.status(400).json({ success, error: "Sorry password is wrong Doremon" })
+      return res.status(400).json({ success, error: "Sorry password is wrong " })
     }
 
     // bellow code work if the user and email is exist on the database
@@ -112,7 +112,7 @@ router.post('/login', [ // this time we write '/login' because this code is for 
 
   } catch (error) { // this will catch the error and show the bellow error messages
     console.error(error.message)
-    res.status(500).send("Internal Servar Error Doremon")
+    res.status(500).send("Internal Servar Error ")
   }
 
 })
@@ -135,7 +135,7 @@ router.post('/getuser', fetchuser, async (req, res) => { //that fetchuser will f
     res.send(user) // and we send the user respons.
   } catch (error) { // this will catch the error and show the bellow error messages
     console.error(error.message)
-    res.status(500).send("Internal Servar Error Doremon")
+    res.status(500).send("Internal Servar Error ")
   }
 
 })
